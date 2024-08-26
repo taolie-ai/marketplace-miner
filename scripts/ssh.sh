@@ -1,4 +1,7 @@
 #!/bin/bash
+# Redirect SSH output to a file
+exec > /tmp/ssh.out 2>&1
+
 
 # This is for the SSH configuration
 if [ ! -f /etc/ssh/ssh_host_rsa_key ]; then

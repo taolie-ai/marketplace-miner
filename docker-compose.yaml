@@ -8,15 +8,16 @@ services:
       - ~/.bittensor:/home/taolie/.bittensor
       - taolie:/home/taolie/
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./seed.txt:/seed.txt
     ports:
       - "2121:2121"
-    #deploy:
-    #  resources:
-    #    reservations:
-    #      devices:
-    #        - driver: nvidia
-    #          count: 1
-    #          capabilities: [gpu]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 
 
 volumes:
