@@ -1,0 +1,29 @@
+name: Build and deploy project to Docker Hub
+on:
+ workflow_dispatch:
+ push:
+   branches:
+     - develop
+
+jobs:
+ build:
+   runs-on: 'ubuntu-latest'
+
+   steps:
+   - uses: actions/checkout@v2
+
+   - name: Set up Docker Buildx
+     uses: docker/setup-buildx-action@v1
+
+   #- name: Log in to Docker Hub - Main web app container registry
+   #  uses: docker/login-action@v1
+   #  with:
+   #    username: ${{ secrets.DOCKER_USERNAME }}
+   #    password: ${{ secrets.DOCKER_PASSWORD }}
+
+   - name: Build and push Main web app container image to registry
+     uses: docker/build-push-action@v2
+     with:
+       push: false
+       tags: linuxstem/docker-bootstrap:latest
+       file: ./Dockerfile

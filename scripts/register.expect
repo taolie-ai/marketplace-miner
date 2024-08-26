@@ -1,0 +1,81 @@
+#!/usr/bin/expect
+
+set timeout -1
+
+
+#Password
+stty -echo
+send_user -- "Wallet Password: "
+expect_user -re "(.*)\n"
+send_user "\n"
+stty echo
+set password $expect_out(1,string)
+send_user "\n"
+
+
+send_user -- "Wallet Coldkey Name: "
+expect_user -re "(.*)\n"
+send_user "\n"
+set coldkey $expect_out(1,string)
+
+send_user -- "Wallet Hotkey Name: "
+expect_user -re "(.*)\n"
+send_user "\n"
+set hotkey $expect_out(1,string)
+
+send_user -- "Subtensor Network: "
+expect_user -re "(.*)\n"
+send_user "\n"
+set network $expect_out(1,string)
+
+send_user -- "netuid: "
+expect_user -re "(.*)\n"
+send_user "\n"
+set netuid $expect_out(1,string)
+
+
+# Enable debugging to trace what expect is matching
+
+spawn bash
+send "while true; do btcli s register --netuid $netuid --subtensor.network $network --wallet.name $coldkey --wallet.hotkey $hotkey; 
+    sleep 5;
+done\r"
+
+
+# Handle interactions
+expect {
+    -re {The cost to register by recycle is (?:\x1b\[[0-9;]*[mK])*τ(?:\x1b\[[0-9;]*[mK])*\s*([0-9.]+)} {
+        set cost $expect_out(1,string)
+        send_user "Detected cost: $cost\n"
+        if {[scan $cost %f] > .25} {         # SET COST HERE
+            send "N\r"
+        } else {
+            send "Y\r"
+        }
+        exp_continue
+    }
+    "Enter password to unlock key:" {
+        send "$password\r"                     
+        exp_continue
+    }
+    "Do you want to continue? \[y/n\] (n):" {
+        send "Y\r"
+        exp_continue
+    }
+    "Insufficient" {
+        send_user "Not enough balance \n"
+        exp_continue
+    }
+    "to register on" {
+        send "Y\r"
+        exp_continue
+
+    }
+    timeout {
+        send_user "Script timeout or error\n"
+        exit
+    }
+}
+
+interact
+

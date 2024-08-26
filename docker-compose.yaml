@@ -1,0 +1,23 @@
+services:
+  bootstrap:
+    build: .
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./config.json:/config.json
+      - ~/.bittensor:/home/taolie/.bittensor
+      - taolie:/home/taolie/
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "2121:2121"
+    #deploy:
+    #  resources:
+    #    reservations:
+    #      devices:
+    #        - driver: nvidia
+    #          count: 1
+    #          capabilities: [gpu]
+
+
+volumes:
+  taolie:
