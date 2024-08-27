@@ -1,0 +1,31 @@
+#!/usr/bin/expect
+
+set timeout 30
+
+
+set password $env(password)
+
+spawn bash
+send "btcli w regen_coldkey --wallet.name TAOlie --mnemonic $env(MNEMONIC) --no_prompt\r"
+
+
+# Handle interactions
+expect {
+    "Specify password for key encryption:" {
+        send "$password\r"                     
+        exp_continue
+    }
+    "Retype your password:" {
+        send "$password\r"                     
+        exp_continue
+    }
+    "Password not strong enough. Try increasing the length of the password or the password complexity" {
+	send_user "Password is not good enough"
+        exit
+    }
+    timeout {
+        send_user "Script timeout or error\n"
+        exit
+    }
+}
+

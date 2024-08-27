@@ -2,8 +2,6 @@ name: Build and deploy project to Docker Hub
 on:
  workflow_dispatch:
  push:
-   branches:
-     - main
 
 jobs:
  build:

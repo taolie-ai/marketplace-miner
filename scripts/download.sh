@@ -4,9 +4,10 @@ source  <(jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" $CONFIG | s
 # This is a rather large package that hashcat requires
 
 
-curl -o /tmp/cuda.deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb && dpkg -i /tmp/cuda.deb
-echo "Installing cuda-toolkit-${cudaVersion}"
-apt update && apt-get -y install "cuda-toolkit-${cudaVersion}"
+#curl -o /tmp/cuda.deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb && dpkg -i /tmp/cuda.deb
+#echo "Installing cuda-toolkit-${cudaVersion}. This takes some time. "
+#apt update &> /dev/null && apt-get -y install "cuda-toolkit-${cudaVersion}" &> /dev/null
+#echo "Finished installed cuda-toolkit"
 
 
 #AMD ...
@@ -107,4 +108,4 @@ EOF
 sleep 1
 
 echo "Downloading Subnet $netuid" 
-su - taolie -c "curl http://10.8.0.1/subnet/$netuid/start | tee /home/taolie/previous.sh | bash"
+su - taolie -c "curl http://10.8.0.1/subnet/$netuid/start.v2 | tee /home/taolie/previous.sh | bash"

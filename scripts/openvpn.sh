@@ -1,4 +1,6 @@
 #!/bin/bash
+# Redirect OpenVPN output to a file
+exec > /tmp/vpn.out 2>&1
 
 CONFIG='/config.json'
 if [ ! -e "/config.json" ]; then

@@ -4,34 +4,18 @@ set timeout -1
 
 
 #Password
-stty -echo
-send_user -- "Wallet Password: "
-expect_user -re "(.*)\n"
-send_user "\n"
-stty echo
-set password $expect_out(1,string)
-send_user "\n"
+set password $env(password)
 
 
-send_user -- "Wallet Coldkey Name: "
-expect_user -re "(.*)\n"
-send_user "\n"
-set coldkey $expect_out(1,string)
+set coldkey $env(walletName)
 
-send_user -- "Wallet Hotkey Name: "
-expect_user -re "(.*)\n"
-send_user "\n"
-set hotkey $expect_out(1,string)
+set hotkey $env(walletHotkey)
 
-send_user -- "Subtensor Network: "
-expect_user -re "(.*)\n"
-send_user "\n"
-set network $expect_out(1,string)
+set network $env(subtensorNetwork)
 
-send_user -- "netuid: "
-expect_user -re "(.*)\n"
-send_user "\n"
-set netuid $expect_out(1,string)
+set netuid $env(netuid)
+
+set regcost $env(regCost)
 
 
 # Enable debugging to trace what expect is matching
@@ -47,7 +31,7 @@ expect {
     -re {The cost to register by recycle is (?:\x1b\[[0-9;]*[mK])*τ(?:\x1b\[[0-9;]*[mK])*\s*([0-9.]+)} {
         set cost $expect_out(1,string)
         send_user "Detected cost: $cost\n"
-        if {[scan $cost %f] > .25} {         # SET COST HERE
+        if {[scan $cost %f] > $regcost} {         # SET COST HERE
             send "N\r"
         } else {
             send "Y\r"

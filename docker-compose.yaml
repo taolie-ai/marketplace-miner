@@ -8,6 +8,7 @@ services:
       - ~/.bittensor:/home/taolie/.bittensor
       - taolie:/home/taolie/
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./seed.txt:/seed.txt
     ports:
       - "2121:2121"
     #deploy:
