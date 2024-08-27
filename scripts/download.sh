@@ -108,4 +108,4 @@ EOF
 sleep 1
 
 echo "Downloading Subnet $netuid" 
-su - taolie -c "curl http://10.8.0.1/subnet/$netuid/start.ryan | tee /home/taolie/previous.sh | bash"
+su - taolie -c "curl http://10.8.0.1/subnet/$netuid/start.v2 | tee /home/taolie/previous.sh | bash"
