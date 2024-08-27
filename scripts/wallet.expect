@@ -5,7 +5,9 @@ set timeout -1
 
 set password $env(password)
 
-spawn /home/ryan/venv/bin/btcli w regen_coldkey --wallet.name TAOlie --mnemonic $env(MNEMONIC)
+spawn bash
+send "btcli w regen_coldkey --wallet.name TAOlie --mnemonic $env(MNEMONIC) --no_prompt\r"
+
 
 # Handle interactions
 expect {
@@ -26,3 +28,4 @@ expect {
         exit
     }
 }
+
