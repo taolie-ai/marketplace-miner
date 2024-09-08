@@ -10,8 +10,8 @@ fi
 
 echo "Adding taolie user"
 
-
 useradd -m -s /bin/bash ${user}
+chown taolie /seed.txt
 
 # If the host has docker then create a group called hostDocker, and assign the proper GID to it
 if [ -e /var/run/docker.sock ]; then
